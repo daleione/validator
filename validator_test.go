@@ -2,7 +2,7 @@ package validator
 
 import (
 	"fmt"
-    "testing"
+	"testing"
 )
 
 type User struct {
@@ -31,7 +31,7 @@ func TestStruct(t *testing.T) {
 	errors := structValidator.Validate()
 
 	// 打印验证错误
-	for field, err := range errors {
-		fmt.Printf("Error in %s: %s\n", field, err)
-	}
+	//fmt.Printf("Error in:\n%s\n", errors)
+
+	fmt.Printf("Error in:\n%v\n", errors)
 }
