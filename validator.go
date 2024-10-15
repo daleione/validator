@@ -133,6 +133,23 @@ func MatchRegex(pattern string) Rule {
 	}
 }
 
+func Enums(pattern ...string) Rule {
+	return func(fieldName string, value any, ec *ErrorsCollector) error {
+		str, ok := value.(string)
+		if !ok {
+			ec.Add(fieldName, "must be a string", 1007)
+			return errors.New(fieldName + " must be a string")
+		}
+		for _, validValue := range pattern {
+			if str == validValue {
+				return nil
+			}
+		}
+		ec.Add(fieldName, "value is not in enums", 1009)
+		return errors.New(fieldName + "value is not in enums")
+	}
+}
+
 // Conditional 验证规则在满足特定条件时才生效
 func Conditional(condition func() bool, rule Rule) Rule {
 	return func(fieldName string, value any, ec *ErrorsCollector) error {
